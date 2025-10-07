@@ -1,0 +1,24 @@
+{
+  "name": "pwproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "fsevents": "^2.3.2",
+    "playwright": "^1.56.0",
+    "playwright-core": "^1.56.0",
+    "undici-types": "^7.14.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.7.0"
+  },
+  "scripts": {
+    "test:ui": "npx playwright test",
+    "ui-mode": "npx playwright test --ui"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
