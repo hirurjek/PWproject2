@@ -14,7 +14,6 @@ test.describe("Login", () => {
         expect(loginFormPage).toBeVisible(); 
 
         await page.evaluate(() => localStorage.clear());  
-        //await page.evaluate(() => localStorage.setItem('test@gmail.com', '{"name":"test@gmail.com","password":"SecretPw123!@#"}'));
         await page.evaluate(({ username, password }) => {
             localStorage.setItem(
             username,

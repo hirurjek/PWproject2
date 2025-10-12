@@ -10,7 +10,7 @@ test.describe("Dynamic Controls", () => {
     test("Dynamic Controls Test", async ({ page }) => {
         
         const dynamicControlsLink = page.locator("a[href='/dynamic_controls']"); 
-        const RemoveButton = page.getByRole("button", {name: "Remove"})
+        const removeButton = page.getByRole("button", {name: "Remove"})
         const headerText = page.locator("div.example p")
         const checkbox = page.getByRole("checkbox"); 
         const addButton = page.getByRole("button", {name: "Add"})
@@ -18,10 +18,10 @@ test.describe("Dynamic Controls", () => {
         const formSuccessMessage = page.locator("p#message")
 
         await dynamicControlsLink.click();
-        await expect(RemoveButton).toBeVisible();
+        await expect(removeButton).toBeVisible();
         await expect(headerText).toHaveText("This example demonstrates when elements (e.g., checkbox, input field, etc.) are changed asynchronously.");
         await checkbox.check();
-        await RemoveButton.click();
+        await removeButton.click();
         await expect(loadingBar, "Waiting for load bar dissapeared").toBeVisible();
         await expect(checkbox).toBeHidden(); 
         await expect(addButton).toBeVisible();
