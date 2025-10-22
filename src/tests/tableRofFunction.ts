@@ -14,7 +14,6 @@ export async function getTableRow(page: Page, email: string) {
       .locator("td")
       .filter({ hasNot: page.locator("a") })
       .allInnerTexts();
-      console.log(`See the cells: ${cells}`);
     const rowData = headersText.reduce<Record<string, string>>(
       (result, header, i) => {
         result[header] = cells[i] ?? "";
