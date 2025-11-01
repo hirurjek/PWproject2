@@ -5,7 +5,8 @@ export class ProductsListPage extends SalesPortalPage {
   readonly addNewProductButton = this.page.locator('[name="add-button"]');
   readonly tableRowByName = (productName: string) =>
     this.page.locator("table tbody tr", { has: this.page.locator("td", { hasText: productName }) });
-
+  readonly firstRowName = this.page.locator("table tbody tr").first().locator("td").nth(0);
+  
   readonly uniqueElement = this.addNewProductButton;
 
   async clickAddNewProduct() {
