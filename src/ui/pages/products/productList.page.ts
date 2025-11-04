@@ -23,7 +23,7 @@ export class ProductsListPage extends SalesPortalPage {
   async clickAddNewProduct() {
     await this.addNewProductButton.click();
   }
-
+ //Pick<IProduct, "name" | "manufacturer" | "price">, ICreatedOn
   async getProductData(productName: string): Promise<IProductInTable> {
     const [name, price, manufacturer, createdOn] = await this.tableRowByName(productName).locator("td").allInnerTexts();
     return {
