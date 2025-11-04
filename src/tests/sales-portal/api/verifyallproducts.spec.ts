@@ -42,6 +42,8 @@ test.describe("[API] [Sales Portal] [Login]", async () => {
     await validateResponse(allProductsResponse, {
       status: STATUS_CODES.OK,
       schema: getAllProductsSchema,
+      IsSuccess: true,
+      ErrorMessage: null,
     });
     const allProductsBody = await allProductsResponse.json();
     const createdProduct = allProductsBody.Products.find((product: { name: string; }) => product.name === productData.name);
