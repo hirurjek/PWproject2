@@ -5,7 +5,6 @@ import { STATUS_CODES } from "data/statusCodes";
 import _ from "lodash";
 import { validateResponse } from "utils/validation/validateResponse.utils";
 import { IProduct } from "data/types/product.types";
-
 import { negativeCasesProductCreate } from "data/salesPortal/products/createProductNegative.data";
 import { positiveCasesProductCreate } from "data/salesPortal/products/createProductPositive.data";
 
