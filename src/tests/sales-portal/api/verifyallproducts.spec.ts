@@ -1,52 +1,34 @@
-import { test, expect } from "fixtures/pages.fixture";
-import { credentials } from "config/env";
+import { test, expect } from "fixtures/api.fixture";
 import { apiConfig } from "config/apiConfig"
 import { STATUS_CODES } from "data/statusCodes";
-import { validateResponse } from "utils/validateResponse";
-import { generateProductData } from "data/salesPortal/products/generateProductData";
-import { getAllProductsSchema } from "data/salesPortal/schemas/allproducts.schema";
+import { validateResponse } from "utils/validation/validateResponse.utils";
+import { getAllProductsSchema } from "data/schemas/allproducts.schema";
+import { get } from "lodash";
+
+
 const { baseURL, endpoints } = apiConfig;
 
 test.describe("[API] [Sales Portal] [Login]", async () => {
+  let id = "";
+  let token = "";
 
-  test("smoke api test", async ({request}) => {
-
-    const loginResponse = await request.post(baseURL + endpoints.login, {
-      data: credentials,
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-    
-    const headers = loginResponse.headers();
-    const token = headers['authorization'];
-
-    const productData = generateProductData();
-    const createProductResponse =  await request.post(baseURL + endpoints.products, {
-        data: productData ,
-        headers: { 
-            "content-type": "application/json",
-            Authorization: `Bearer ${token}`,
-      },
-      });
-
-    expect(createProductResponse.status()).toBe(STATUS_CODES.CREATED);
-
-    const allProductsResponse = await request.get(baseURL + endpoints.productsAll, {
-        headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+  test.afterEach(async ({ productsApiService }) => {
+    await productsApiService.delete(token, id);
   });
 
-    await validateResponse(allProductsResponse, {
-      status: STATUS_CODES.OK,
-      schema: getAllProductsSchema,
-      IsSuccess: true,
-      ErrorMessage: null,
+  test("Get Product By Id", async ({ loginApiService, productsApiService, productsApi }) => {
+    token = await loginApiService.loginAsAdmin();
+    const product = await productsApiService.create(token);
+    id = product._id;
+
+    const getProductsResponse = await productsApi.getAll(token);
+    validateResponse(getProductsResponse, {
+          status: STATUS_CODES.OK,
+          schema: getAllProductsSchema,
+          IsSuccess: true,
+          ErrorMessage: null,
+        });
+        expect(getProductsResponse.body.Products).toEqual(expect.arrayContaining([product])
+);
+      });
     });
-    const allProductsBody = await allProductsResponse.json();
-    const createdProduct = allProductsBody.Products.find((product: { name: string; }) => product.name === productData.name);
-    expect(createdProduct).toBeDefined();
-});
-});

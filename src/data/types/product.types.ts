@@ -13,8 +13,10 @@ export interface ICreatedOn {
   createdOn: string;
 }
 export interface IProductInTable extends Pick<IProduct, "name" | "manufacturer" | "price">, ICreatedOn {}
-
 export interface IProductFromResponse extends Required<IProduct>, ICreatedOn, ID {}
 export interface IProductResponse extends IResponseFields {
   Product: IProductFromResponse;
+}
+export interface IProductsResponse extends IResponseFields {
+  Products: IProductFromResponse[];
 }
