@@ -1,3 +1,18 @@
+import { IProduct } from "./product.types";
+export interface ICreatedOn {
+  createdOn: string;
+}
+export interface IDate {
+  year: number;
+  month: number;
+  day: number;
+}
+
+export interface ICase {
+  title: string;
+  expectedStatus?: number;
+  expectedErrorMessage?: string;
+}
 export interface ID {
   _id: string;
 }
@@ -17,3 +32,4 @@ export interface IResponse<T extends object | null> {
   headers: Record<string, string>;
   body: T;
 }
+export type SortOrder = "asc" | "desc";
