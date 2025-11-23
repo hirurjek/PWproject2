@@ -2,10 +2,11 @@ import { IProductInTable, ProductsTableHeader } from "data/types/product.types";
 import { SalesPortalPage } from "../salesPortal.page";
 import { MANUFACTURERS } from "data/salesPortal/products/manufactures";
 import { ProductDetailsModal } from "./details.modal";
-import { DeleteProductModal } from "./delete.modal";
+import { ConfirmationModal } from "../confirmation.modal";
 
 export class ProductsListPage extends SalesPortalPage {
   readonly detailsModal = new ProductDetailsModal(this.page);
+  readonly deleteModal = new ConfirmationModal(this.page);
 
   readonly productsPageTitle = this.page.locator("h2.fw-bold");
   readonly addNewProductButton = this.page.locator('[name="add-button"]');
@@ -16,7 +17,7 @@ export class ProductsListPage extends SalesPortalPage {
   readonly nameCell = (productName: string) => this.tableRowByName(productName).locator("td").nth(0);
   readonly priceCell = (productName: string) => this.tableRowByName(productName).locator("td").nth(1);
   readonly manufacturerCell = (productName: string) => this.tableRowByName(productName).locator("td").nth(2);
-  readonly deleteModal = new DeleteProductModal(this.page);
+
   readonly firstRowName = this.page.locator("table tbody tr").first().locator("td").nth(0);
   readonly createdOnCell = (nameOrIndex: string | number) =>
     typeof nameOrIndex === "string"
