@@ -1,6 +1,7 @@
 import { test, expect } from "fixtures/business.fixture";
 import _ from "lodash";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
+import { TAGS } from "data/tags";
 
 test.describe("[Sales Portal] [Customers] [Create]", async () => {
   let id = "";
@@ -11,8 +12,10 @@ test.describe("[Sales Portal] [Customers] [Create]", async () => {
     id = "";
   });
 
-  test("Add new customer with services", async ({ loginUIService, customersListPage, addNewCustomerUIService }) => {
-    token = await loginUIService.loginAsAdmin();
+  test("Add new customer with services",{
+          tag: [TAGS.SMOKE, TAGS.CUSTOMERS],
+        }, async ({productsListPage, customersListPage, addNewCustomerUIService }) => {
+    token = await productsListPage.getAuthToken();
     await addNewCustomerUIService.open();
     const createdCustomer = await addNewCustomerUIService.create();
     id = createdCustomer._id;

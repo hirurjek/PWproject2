@@ -1,9 +1,10 @@
-import { expect, Page } from "@playwright/test";
+import test, { expect, Page } from "@playwright/test";
 import { IProductDetails } from "data/types/product.types";
 import _ from "lodash";
 import { AddNewProductPage } from "ui/pages/products/addNewProduct.page";
 import { ProductsListPage } from "ui/pages/products/productList.page";
 import { convertToFullDateAndTime } from "utils/date.utils";
+import { logStep } from "utils/report/logStep.utils";
 
 export class ProductsListUIService {
   productsListPage: ProductsListPage;
@@ -14,21 +15,25 @@ export class ProductsListUIService {
     this.addNewProductPage = new AddNewProductPage(page);
   }
 
+  @logStep("Open Add New Product Page")
   async openAddNewProductPage() {
     await this.productsListPage.clickAddNewProduct();
     await this.addNewProductPage.waitForOpened();
   }
 
+  @logStep("Delete Details Modal on Products List Page")
   async openDetailsModal(productName: string) {
     await this.productsListPage.detailsButton(productName).click();
     await this.productsListPage.detailsModal.waitForOpened();
   }
 
+  @logStep("Open Delete modal on Products List Page")
   async openDeleteModal(productName: string) {
     await this.productsListPage.clickAction(productName, "delete");
     await this.productsListPage.deleteModal.waitForOpened();
   }
 
+  @logStep("Delete Product on Products List Page")
   async deleteProduct(productName: string) {
     await this.productsListPage.clickAction(productName, "delete");
     await this.productsListPage.deleteModal.waitForOpened();

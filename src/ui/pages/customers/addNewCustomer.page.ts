@@ -1,5 +1,6 @@
 import { ICustomer } from "data/types/customers.types";
 import { SalesPortalPage } from "../salesPortal.page";
+import { logStep } from "utils/report/logStep.utils";
 
 export class AddNewCustomerPage extends SalesPortalPage {
   readonly title = this.page.locator("h2.page-title-text");
@@ -16,6 +17,7 @@ export class AddNewCustomerPage extends SalesPortalPage {
 
   readonly uniqueElement = this.title;
 
+  @logStep("fill customer field via UI")
   async fillForm(customerData: Partial<ICustomer>) {
     if (customerData.name) await this.nameInput.fill(customerData.name);
     if (customerData.email) await this.emailInput.fill(customerData.email);
