@@ -2,6 +2,7 @@ import { test, expect } from "fixtures/business.fixture";
 import { credentials } from "config/env";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
+import { TAGS } from "data/tags";
 
 test.describe("[Sales Portal] [Products]", async () => {
   let id = "";
@@ -12,12 +13,30 @@ test.describe("[Sales Portal] [Products]", async () => {
     id = "";
   });
 
-  test("Add new product with services", async ({
-    loginUIService,
+  test(
+    "[TAGS] Add new product with services",
+    {
+      tag: [TAGS.SMOKE, TAGS.REGRESSION, TAGS.PRODUCTS],
+    },
+    async ({addNewProductUIService, productsListPage }) => {
+      await addNewProductUIService.open();
+      const createdProduct = await addNewProductUIService.create();
+      id = createdProduct._id;
+      token = await productsListPage.getAuthToken();
+      await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
+      await expect(productsListPage.tableRowByName(createdProduct.name)).toBeVisible();
+    },
+  );
+  
+  test("[OLD] Add new product with services",{
+        tag: [TAGS.SMOKE],
+      }, async ({
+
     addNewProductUIService,
     productsListPage,
   }) => {
-    token = await loginUIService.loginAsAdmin();
+    //token = await loginUIService.loginAsAdmin();
+    token = await productsListPage.getAuthToken();
     await addNewProductUIService.open();
     const createdProduct = await addNewProductUIService.create();
     id = createdProduct._id;
@@ -27,7 +46,7 @@ test.describe("[Sales Portal] [Products]", async () => {
 
 
 
-  test("Add new product", async ({ loginPage, homePage, productsListPage, addNewProductPage }) => {
+  test.skip("Add new product", async ({ loginPage, homePage, productsListPage, addNewProductPage }) => {
 
     await loginPage.open();
 

@@ -1,6 +1,7 @@
 import { expect, Locator } from "@playwright/test";
 import { BasePage } from "./base.page";
 import { SALES_PORTAL_URL } from "../../config/env";
+import { logStep } from "utils/report/logStep.utils";
 
 export abstract class SalesPortalPage extends BasePage {
   readonly spinner = this.page.locator(".spinner-border");
@@ -12,6 +13,7 @@ export abstract class SalesPortalPage extends BasePage {
     await this.waitForSpinners();
   }
 
+  @logStep("wait for spinners to disappear")
   async waitForSpinners() {
     await expect(this.spinner).toHaveCount(0, { timeout: 10000 });
   }

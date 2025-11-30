@@ -1,6 +1,7 @@
 import { test, expect } from "fixtures/business.fixture";
 import _ from "lodash";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
+import { TAGS } from "data/tags";
 
 test.describe("[Sales Portal] [Products] [Edit]", async () => {
   let id = "";
@@ -11,13 +12,14 @@ test.describe("[Sales Portal] [Products] [Edit]", async () => {
     id = "";
   });
 
-    test("Edit product with services", async ({
-     loginUIService,
+    test("Edit product with services", {
+            tag: [TAGS.PRODUCTS, TAGS.VISUAL_REGRESSION],
+          }, async ({
     addNewProductUIService,
     productsListPage,
     editProductPage
   }) => {
-    token = await loginUIService.loginAsAdmin();
+    token = await productsListPage.getAuthToken();
     await addNewProductUIService.open();
     const createdProduct = await addNewProductUIService.create();
     id = createdProduct._id;

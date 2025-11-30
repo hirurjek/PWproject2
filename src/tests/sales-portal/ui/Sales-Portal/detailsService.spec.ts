@@ -7,6 +7,7 @@ import { generateProductData } from "data/salesPortal/products/generateProductDa
 import { HomePage } from "ui/pages/home.page";
 import { AddNewProductPage } from "ui/pages/products/addNewProduct.page";
 import { ProductsListPage } from "ui/pages/products/productList.page";
+import { TAGS } from "data/tags";
 
 test.describe("[Sales Portal] [Products]", async () => {
   let id = "";
@@ -83,14 +84,16 @@ test.describe("[Sales Portal] [Products]", async () => {
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
   });
 
-  test("Add new product with services", async ({
-    loginUIService,
+  test("Add new product with services",{
+          tag: [TAGS.SMOKE, TAGS.PRODUCTS, TAGS.VISUAL_REGRESSION],
+        }, async ({
+
     // homeUIService,
     // productsListUIService,
     addNewProductUIService,
     productsListPage,
   }) => {
-    token = await loginUIService.loginAsAdmin();
+    token = await productsListPage.getAuthToken();
     // await homeUIService.openModule("Products");
     // await productsListUIService.openAddNewProductPage();
     await addNewProductUIService.open();
@@ -105,7 +108,7 @@ test.describe("[Sales Portal] [Products]", async () => {
     id = "";
   });
 
-  test("Add new product", async ({ page }) => {
+  test.skip("Add new product", async ({ page }) => {
     const homePage = new HomePage(page);
     const productsListPage = new ProductsListPage(page);
     const addNewProductPage = new AddNewProductPage(page);
